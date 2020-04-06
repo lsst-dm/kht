@@ -190,7 +190,7 @@ namespace kht {
         }
 
         // Performs the proposed Hough transform voting scheme.
-        void voting(Accumulator &accumulator, ListOfClusters const &clusters, std::double_t kernel_min_height, std::double_t n_sigmas) {
+        void voting(Accumulator &accumulator, ListOfClusters const &clusters, std::double_t kernel_min_height, std::double_t n_sigmas, std::double_t abs_kernel_min_height) {
             /* Leandro A. F. Fernandes, Manuel M. Oliveira
             * Real-time line detection through an improved Hough transform voting scheme
             * Pattern Recognition (PR), Elsevier, 41:1, 2008, pp. 299-314.
@@ -304,13 +304,15 @@ namespace kht {
 
             std::size_t i = 0;
             for (std::size_t k = 0, end = used_kernels.size(); k != end; ++k) {
-                if ((used_kernels[k]->height * norm) >= kernel_min_height) {
-                    if (i != k) {
-                        Kernel *temp = used_kernels[i];
-                        used_kernels[i] = used_kernels[k];
-                        used_kernels[k] = temp;
+                if (used_kernels[k]->height >= abs_kernel_min_height) {
+                    if ((used_kernels[k]->height * norm) >= kernel_min_height) {
+                        if (i != k) {
+                            Kernel *temp = used_kernels[i];
+                            used_kernels[i] = used_kernels[k];
+                            used_kernels[k] = temp;
+                        }
+                        i++;
                     }
-                    i++;
                 }
             }
             used_kernels.resize(i);
@@ -337,7 +339,11 @@ namespace kht {
                 vote(accumulator, kernel->rho_index - 1, kernel->theta_index - 1, -delta, -delta, -1, -1, kernel->lambda[0], kernel->lambda[3], kernel->lambda[1], kernels_scale);
             }
         }
-
+        
+        void voting(Accumulator &accumulator, ListOfClusters const &clusters, std::double_t kernel_min_height, std::double_t n_sigmas) {
+            std::double_t abs_kernel_min_height = 0;
+            voting(accumulator, clusters, kernel_min_height, n_sigmas, abs_kernel_min_height);
+        }
     }
 
 }

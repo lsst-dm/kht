@@ -36,7 +36,7 @@
 namespace kht {
 
     // Kernel-based Hough transform (KHT) for detecting straight lines in images.
-    void run_kht(ListOfLines &result, std::uint8_t *binary_image, std::size_t image_width, std::size_t image_height, std::int32_t cluster_min_size, std::double_t cluster_min_deviation, std::double_t delta, std::double_t kernel_min_height, std::double_t n_sigmas) {
+    void run_kht(ListOfLines &result, std::uint8_t *binary_image, std::size_t image_width, std::size_t image_height, std::int32_t cluster_min_size, std::double_t cluster_min_deviation, std::double_t delta, std::double_t kernel_min_height, std::double_t n_sigmas, std::double_t abs_kernel_min_height) {
         using namespace detail;
         
         static ListOfChains chains;
@@ -50,10 +50,9 @@ namespace kht {
 
         // Perform the proposed Hough transform voting scheme.
         accumulator.init(image_width, image_height, delta);
-        voting(accumulator, clusters, kernel_min_height, n_sigmas);
+        voting(accumulator, clusters, kernel_min_height, n_sigmas, abs_kernel_min_height);
 
         // Retrieve the most significant straight lines from the resulting voting map.
         peak_detection(result, accumulator);
     }
-
 }

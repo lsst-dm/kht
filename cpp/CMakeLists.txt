@@ -54,6 +54,9 @@ set_target_properties(kht PROPERTIES POSITION_INDEPENDENT_CODE ON PUBLIC_HEADER 
 
 include(GNUInstallDirs)
 
+# Add build of pybind11 wrapper
+add_subdirectory(lsst/kht)
+
 install(TARGETS kht
   ARCHIVE DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/kht"
   PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_PREFIX}/include/kht"

@@ -116,7 +116,7 @@ namespace kht {
     * It is important to notice that the linking procedure implemented by the kht()
     * function destroys the original image.
     */
-    void run_kht(ListOfLines &result, std::uint8_t *binary_image, std::size_t image_width, std::size_t image_height, std::int32_t cluster_min_size = 10, std::double_t cluster_min_deviation = 2.0, std::double_t delta = 0.5, std::double_t kernel_min_height = 0.002, std::double_t n_sigmas = 2.0);
+    void run_kht(ListOfLines &result, std::uint8_t *binary_image, std::size_t image_width, std::size_t image_height, std::int32_t cluster_min_size = 10, std::double_t cluster_min_deviation = 2.0, std::double_t delta = 0.5, std::double_t kernel_min_height = 0.002, std::double_t n_sigmas = 2.0, std::double_t abs_kernel_min_height = 0);
 
     // The private namespace of the KHT library (don't touch it!).
     namespace detail {
@@ -416,6 +416,8 @@ namespace kht {
 
         // Performs the proposed Hough transform voting scheme.
         void voting(Accumulator &accumulator, ListOfClusters const &clusters, std::double_t kernel_min_height, std::double_t n_sigmas);
+
+        void voting(Accumulator &accumulator, ListOfClusters const &clusters, std::double_t kernel_min_height, std::double_t n_sigmas, std::double_t abs_kernel_min_height);
 
     }
 

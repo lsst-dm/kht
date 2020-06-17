@@ -31,8 +31,8 @@ After building, the python module can be used as follows:
 ```
 import lsst.kht
 
-lines = lsst.kht.find_satellites(image, clusterMinimumSize, clusterMinimumDeviation, 
-                                 delta, minimumKernelHeight, nSigmas, absMinimumKernelHeight)
+lines = lsst.kht.find_lines(image, clusterMinimumSize, clusterMinimumDeviation, 
+                            delta, minimumKernelHeight, nSigmas, absMinimumKernelHeight)
 ```
 where the first six input parameters follow the conventions of the original [KHT](https://github.com/laffernandes/kht) and the last parameter `absMinimumKernelHeight` implements the absolute minimum kernel height cut described above.
 
